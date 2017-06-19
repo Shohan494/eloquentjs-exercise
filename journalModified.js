@@ -114,6 +114,12 @@ function tableFor(event, journal) {
   return table;
 }
 
+function forEach(array, action) {
+  for (var i = 0; i < array.length; i++)
+    action(array[i]);
+}
+
+/* before forEach function
 function gatherCorrelations(journal) {
   var phis = {};
   for (var entry = 0; entry < journal.length; entry++) {
@@ -124,6 +130,18 @@ function gatherCorrelations(journal) {
         phis[event] = phi(tableFor(event, journal));
     }
   }
+  return phis;
+}
+*/
+
+function gatherCorrelations(journal) {
+  var phis = {};
+  journal.forEach(function(entry) {
+    entry.events.forEach(function(event) {
+      if (!(event in phis))
+        phis[event] = phi(tableFor(event, journal));
+    });
+  });
   return phis;
 }
 
